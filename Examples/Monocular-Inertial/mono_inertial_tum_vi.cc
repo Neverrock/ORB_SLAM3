@@ -15,7 +15,9 @@
 * You should have received a copy of the GNU General Public License along with ORB-SLAM3.
 * If not, see <http://www.gnu.org/licenses/>.
 */
-
+#define NOMINMAX
+#undef min
+#undef max
 #include<iostream>
 #include<algorithm>
 #include<fstream>

@@ -368,7 +368,14 @@ void MapPoint::ComputeDistinctiveDescriptors()
     // Compute distances between them
     const size_t N = vDescriptors.size();
 
+    // Variable Length Array and is not standard in C++, will be compiled by GCC but not MSVC
+#ifdef _WINDOWS
+    std::vector<std::vector<float> > Distances;
+    Distances.resize(N, vector<float>(N, 0));
+#else
     float Distances[N][N];
+#endif
+
     for(size_t i=0;i<N;i++)
     {
         Distances[i][i]=0;
@@ -385,7 +392,11 @@ void MapPoint::ComputeDistinctiveDescriptors()
     int BestIdx = 0;
     for(size_t i=0;i<N;i++)
     {
+#ifdef _WINDOWS
+        vector<int> vDists(Distances[i].begin(), Distances[i].end());
+#else
         vector<int> vDists(Distances[i],Distances[i]+N);
+#endif
         sort(vDists.begin(),vDists.end());
         int median = vDists[0.5*(N-1)];
 

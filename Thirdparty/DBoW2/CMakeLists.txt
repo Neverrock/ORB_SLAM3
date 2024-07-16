@@ -36,10 +36,12 @@ if(NOT OpenCV_FOUND)
       message(FATAL_ERROR "OpenCV > 3.0 not found.")
    endif()
 endif()
+find_package(Boost)
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
-include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${OpenCV_INCLUDE_DIRS}
+${Boost_INCLUDE_DIR})
 add_library(DBoW2 SHARED ${SRCS_DBOW2} ${SRCS_DUTILS})
 target_link_libraries(DBoW2 ${OpenCV_LIBS})
 
