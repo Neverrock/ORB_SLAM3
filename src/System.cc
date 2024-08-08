@@ -222,7 +222,8 @@ namespace ORB_SLAM3 {
         }
 
         // Fix verbosity
-        Verbose::SetTh(Verbose::VERBOSITY_QUIET);
+        //Verbose::SetTh(Verbose::VERBOSITY_QUIET);
+        Verbose::SetTh(Verbose::VERBOSITY_DEBUG);
 
     }
 
@@ -417,7 +418,9 @@ namespace ORB_SLAM3 {
                 mbResetActiveMap = false;
             }
         }
-
+        // TODO
+        //if (mSensor == System::IMU_MONOCULAR)
+        //    cout << "ImuMeas vector size: " << vImuMeas.size() << endl;
         if (mSensor == System::IMU_MONOCULAR)
             for (size_t i_imu = 0; i_imu < vImuMeas.size(); i_imu++)
                 mpTracker->GrabImuData(vImuMeas[i_imu]);

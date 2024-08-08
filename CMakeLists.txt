@@ -19,7 +19,7 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj") #                 Increases the number of addressable sections in an .obj file.
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c11") #                Use c++11
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zm2000") #                 Specifies the precompiled header memory allocation limit
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W1") #                     Enables level 1 (severe) warnings
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /w") #                      Enables level 1 (severe) warnings
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP") #                     Builds multiple source files concurrently
     #SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} /verbose:lib")# Prints out which libraries are being searched in which order
     add_compile_definitions(_ENFORCE_MATCHING_ALLOCATORS=0)
@@ -163,16 +163,19 @@ endif ()
 
 # Build examples
 
+add_executable(VideoToFrameConverter
+        tools/VideoToFrameConverter.cpp)
+target_link_libraries(VideoToFrameConverter ${PROJECT_NAME})
+
 #Monocular examples
 
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular/$<CONFIG>)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular/mono_tum_vi/$<CONFIG>) #   output destination for .exe
+set_target_properties(${PROJECT_NAME}
+        PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular/mono_tum_vi/$<CONFIG> #      output destination for library on unix
+        RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular/mono_tum_vi/$<CONFIG> #      output destination for .dll on Windows
+)
 
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular/$<CONFIG>)
-#set_target_properties(${PROJECT_NAME}
-#        PROPERTIES
-#        LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular/$<CONFIG>
-#        RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular/$<CONFIG>
-#)
 #add_executable(mono_tum
 #        Examples/Monocular/mono_tum.cc)
 #target_link_libraries(mono_tum ${PROJECT_NAME})
@@ -185,36 +188,36 @@ endif ()
 #        Examples/Monocular/mono_euroc.cc)
 #target_link_libraries(mono_euroc ${PROJECT_NAME})
 #
-#add_executable(mono_tum_vi
-#        Examples/Monocular/mono_tum_vi.cc)
-#target_link_libraries(mono_tum_vi ${PROJECT_NAME})
+add_executable(mono_tum_vi
+        Examples/Monocular/mono_tum_vi.cc)
+target_link_libraries(mono_tum_vi ${PROJECT_NAME})
 
 
 #Monocular inertial examples
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular-Inertial/$<CONFIG>)
-#set_target_properties(${PROJECT_NAME}
-#        PROPERTIES
-#        LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular-Inertial/$<CONFIG>
-#        RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular-Inertial/$<CONFIG>
-#)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular-Inertial/mono_inertial_tum_vi/$<CONFIG>) #   output destination for .exe
+set_target_properties(${PROJECT_NAME}
+        PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular-Inertial/mono_inertial_tum_vi/$<CONFIG> #      output destination for library on unix
+        RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular-Inertial/mono_inertial_tum_vi/$<CONFIG> #      output destination for .dll on Windows
+)
 
-add_executable(mono_inertial_euroc
-        Examples/Monocular-Inertial/mono_inertial_euroc.cc)
-target_link_libraries(mono_inertial_euroc ${PROJECT_NAME})
+#add_executable(mono_inertial_euroc
+#        Examples/Monocular-Inertial/mono_inertial_euroc.cc)
+#target_link_libraries(mono_inertial_euroc ${PROJECT_NAME})
 
 add_executable(mono_inertial_tum_vi
         Examples/Monocular-Inertial/mono_inertial_tum_vi.cc)
 target_link_libraries(mono_inertial_tum_vi ${PROJECT_NAME})
 
-if (realsense2_FOUND)
-    add_executable(mono_inertial_realsense_t265
-            Examples/Monocular-Inertial/mono_inertial_realsense_t265.cc)
-    target_link_libraries(mono_inertial_realsense_t265 ${PROJECT_NAME})
-
-    add_executable(mono_inertial_realsense_D435i
-            Examples/Monocular-Inertial/mono_inertial_realsense_D435i.cc)
-    target_link_libraries(mono_inertial_realsense_D435i ${PROJECT_NAME})
-endif ()
+#if (realsense2_FOUND)
+#    add_executable(mono_inertial_realsense_t265
+#            Examples/Monocular-Inertial/mono_inertial_realsense_t265.cc)
+#    target_link_libraries(mono_inertial_realsense_t265 ${PROJECT_NAME})
+#
+#    add_executable(mono_inertial_realsense_D435i
+#            Examples/Monocular-Inertial/mono_inertial_realsense_D435i.cc)
+#    target_link_libraries(mono_inertial_realsense_D435i ${PROJECT_NAME})
+#endif ()
 
 #Monocular examples
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples_old/Monocular/$<CONFIG>)

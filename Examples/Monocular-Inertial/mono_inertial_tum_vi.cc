@@ -243,7 +243,7 @@ int main(int argc, char **argv)
         }
 
     }
-
+    cout << "Shutdown..." << endl;
     // cout << "ttrack_tot = " << ttrack_tot << std::endl;
     // Stop all threads
     SLAM.Shutdown();
